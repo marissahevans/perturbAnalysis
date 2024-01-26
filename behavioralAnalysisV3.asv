@@ -212,7 +212,6 @@ for ss = 11:length(subjAll)
 
     %correction for confidence learning
     confPtb = conf(20:70,:);
-    confPtb(confPtb<1) = 1;
     x = 1:612;
     yPrime = log(confPtb(:));
     pPrime = polyfit(x,yPrime,1);

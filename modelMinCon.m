@@ -7,7 +7,7 @@ r = [10,linspace(10,0,length(2:length(arcSize)))];
 figs = 1; %show figures in loop
 
 tic
-subjAll = [{'BY'},{'FM'},{'HP'},{'MP'},{'NA'},{'PL'},{'SM'},{'ET'}]; %,{'IJ'},{'AMN'},{'SB'}];
+subjAll = [{'BY'},{'FM'},{'HP'},{'MP'},{'NA'},{'PL'},{'SM'},{'ET'},{'IJ'},{'AN'},{'SB'},{'VD'},{'GK'},{'PK'}];
 for ss = 1:length(subjAll)
     subj = subjAll{ss};
     path = sprintf('/Users/mhe229/Documents/Landy Lab/perturbExperiment/data_perturb/%s',subj);
@@ -255,8 +255,8 @@ toc
 
 
 figure
-for ii = 1:8
-    subplot(2,4,ii)
+for ii = 1:14
+    subplot(3,5,ii)
     bar(cvDiff(ii,:))
     ylim([0 1000])
     xlabel('model')
