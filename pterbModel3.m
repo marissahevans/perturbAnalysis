@@ -1,6 +1,6 @@
 function [lsTot, AS, fb, ASsem, fbSem] = pterbModel3(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim,alpha_mf)
-%UNTITLED5 Summary of this function goes here
-%   Detailed explanation goes here
+%Model 3 - Two update deltas are calculated, one based on target error for the motor plan, and another based on estimated endpoint error for the proprioceptive recalibration. 
+% 7 parameters. Circle size based on Bayesian combination of posterior of motor and proprioceptive inputs. 
 
 %initalizing variables
 aimNoise = zeros(1,numTrial);
