@@ -4,16 +4,17 @@ ptb = zeros(1,numTrial);
 ptb(20:70) = 20;
 arcSize = 0:45; %possible arc angles
 r = [10,linspace(10,0,length(2:length(arcSize)))];
-figs = 1; %show figures in loop
+figs = 0; %show figures in loop
 
 tic
 subjAll = [{'BY'},{'FM'},{'HP'},{'MP'},{'NA'},{'PL'},{'SM'},{'ET'},{'IJ'},{'AN'},{'SB'},{'VD'},{'GK'},{'PK'},{'RW'},{'SX'}];
-for ss = 1:length(subjAll)
+for ss = 15%1:length(subjAll)
     subj = subjAll{ss};
     path = sprintf('/Users/mhe229/Documents/Landy Lab/perturbExperiment/data_perturb/%s',subj);
     filename = sprintf('%s_LSoutput.mat',subj);
     load([path '/' filename])
     numSims = 300;
+    for gg = 1
     for cv = 1:numBlocks
         samp = logical(zeros(1,numBlocks));
         samp(cv) = 1;
@@ -90,40 +91,47 @@ for ss = 1:length(subjAll)
         [cvLS4(cv)]= pterbModel4(testBlockfeed,testBlockconf,numTrial,numSims,r,ptb,arcSize,x4(cv,1),x4(cv,2),x4(cv,3),x4(cv,4),x4(cv,5),x4(cv,6));
     end
 
-    feedbackErrmean = mean(feedbackErr,2);
-    confmean = mean(conf,2);
-    numSims = 1000;
+    % feedbackErrmean = mean(feedbackErr,2);
+    % confmean = mean(conf,2);
+    % numSims = 1000;
+    % 
+    % var1 = mean(x1);
+    % [lsTot1, AS1, fb1, ASsem1, fbSem1] = pterbModel1(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,var1(1),var1(2),var1(3),var1(4));
+    % 
+    % var2 = mean(x2);
+    % [lsTot2, AS2, fb2, ASsem2, fbSem2] = pterbModel2(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,var2(1),var2(2),var2(3),var2(4),var2(5));
+    % 
+    % var3 = mean(x3);
+    % [lsTot3, AS3, fb3, ASsem3, fbSem3] = pterbModel3(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,var3(1),var3(2),var3(3),var3(4),var3(5),var3(6));
+    % 
+    % var4 = mean(x4);
+    % [lsTot4, AS4, fb4, ASsem4, fbSem4] = pterbModel4(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,var4(1),var4(2),var4(3),var4(4),var4(5),var4(6));
+    % 
+    % lsAll(ss,:) = [lsTot1 lsTot2 lsTot3 lsTot4];
+    % lsMin = min(lsAll(ss,:));
+    % lsDiff = lsAll(ss,:) - lsMin;
+    % 
+    % cvAll(ss,:) = [sum(cvLS1) sum(cvLS2) sum(cvLS3) sum(cvLS4)];
+    % cvmin(ss) = min(cvAll(ss,:));
+    % cvDiff(ss,:) =  cvAll(ss,:) - cvmin(ss);
+    % 
+    % allVar1(ss,:) = var1;
+    % allVar2(ss,:) = var2;
+    % allVar3(ss,:) = var3;
+    % allVar4(ss,:) = var4;
+
+    cvAll = [sum(cvLS1) sum(cvLS2) sum(cvLS3) sum(cvLS4)];
+    cvmin = min(cvAll);
+    cvDiff=  cvAll - cvmin;
+    winner(gg) = find(cvDiff==0);
+
+    filename2 = sprintf('%s_fMinOutput_%d.mat',subj,gg);
+    save(fullfile(path,filename2), 'x1','x2','x3','x4','cvLS1','cvLS2','cvLS3','cvLS4','cvDiff') %,'AS1','AS2','AS3','AS4','ASsem1','ASsem2','ASsem3','ASsem4','fb1','fb2','fb3','fb4','fbSem1','fbSem2','fbSem3','fbSem4','lsAll','lsDiff','var1','var2','var3','var4','feedbackErrmean','confmean')
+    end 
+
+    filename3 = sprintf('%s_winningModel.mat',subj);
+    save(fullfile(path,filename3), 'winner');
     
-    var1 = mean(x1);
-    [lsTot1, AS1, fb1, ASsem1, fbSem1] = pterbModel1(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,var1(1),var1(2),var1(3),var1(4));
-
-    var2 = mean(x2);
-    [lsTot2, AS2, fb2, ASsem2, fbSem2] = pterbModel2(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,var2(1),var2(2),var2(3),var2(4),var2(5));
-
-    var3 = mean(x3);
-    [lsTot3, AS3, fb3, ASsem3, fbSem3] = pterbModel3(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,var3(1),var3(2),var3(3),var3(4),var3(5),var3(6));
-
-    var4 = mean(x4);
-    [lsTot4, AS4, fb4, ASsem4, fbSem4] = pterbModel4(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,var4(1),var4(2),var4(3),var4(4),var4(5),var4(6));
-
-    lsAll(ss,:) = [lsTot1 lsTot2 lsTot3 lsTot4];
-    lsMin = min(lsAll(ss,:));
-    lsDiff = lsAll(ss,:) - lsMin;
-
-    cvAll(ss,:) = [sum(cvLS1) sum(cvLS2) sum(cvLS3) sum(cvLS4)];
-    cvmin(ss) = min(cvAll(ss,:));
-    cvDiff(ss,:) =  cvAll(ss,:) - cvmin(ss);
-
-    allVar1(ss,:) = var1;
-    allVar2(ss,:) = var2;
-    allVar3(ss,:) = var3;
-    allVar4(ss,:) = var4;
-
-    filename2 = sprintf('%s_fMinOutput.mat',subj);
-    save(fullfile(path,filename2), 'x1','x2','x3','x4','var1','var2','var3','var4','lsAll','lsDiff','cvLS1','cvLS2','cvLS3','cvLS4','AS1','AS2','AS3','AS4','ASsem1','ASsem2',...
-        'ASsem3','ASsem4','fb1','fb2','fb3','fb4','fbSem1','fbSem2','fbSem3','fbSem4','feedbackErrmean','confmean')
-
-
     if figs == 1
         x = 1:100;
         figure
@@ -254,13 +262,13 @@ toc
 
 
 
-figure
-for ii = 1:16
-    subplot(4,4,ii)
-    bar(cvDiff(ii,:))
-    ylim([0 1000])
-    xlabel('model')
-    ylabel('cv diff')
-    title(['CV subj ' num2str(ii)])
-end
+% figure
+% for ii = 1:16
+%     subplot(4,4,ii)
+%     bar(cvDiff(ii,:))
+%     ylim([0 1000])
+%     xlabel('model')
+%     ylabel('cv diff')
+%     title(['CV subj ' num2str(ii)])
+% end
 

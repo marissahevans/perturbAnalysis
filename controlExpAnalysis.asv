@@ -1,5 +1,5 @@
 subjAll = [{'BY'},{'FM'},{'HP'},{'MP'},{'NA'},{'PL'},{'SM'},{'ET'},{'IJ'},{'AN'},{'SB'},{'VD'},{'GK'},{'PK'},{'RW'},{'SX'}];
-for ss = 1:length(subjAll)
+for ss = 15:length(subjAll)
     subj = subjAll{ss};
     path = sprintf('/Users/mhe229/Documents/Landy Lab/perturbExperiment/data_perturb/%s',subj);
 
@@ -129,15 +129,12 @@ for ss = 1:length(subjAll)
     %Motor Error Marginal
     mmarg = sum(NormPost,2);
     mmarg = mmarg/sum(mmarg);
-    sigMmarg = m_vec(find(mmarg == max(mmarg)));
+    sigMmarg(ss) = m_vec(find(mmarg == max(mmarg)));
 
     %Proprioception Marginal
     pmarg = sum(NormPost,1);
     pmarg = pmarg/sum(pmarg);
-    sigPmarg = p_vec(find(pmarg == max(pmarg)));
-
-    filename = sprintf('%s_contExpFit.mat',subj);
-    save(fullfile(path,filename), 'sigPmarg','sigMmarg','NormPost');
+    sigPmarg(ss) = p_vec(find(pmarg == max(pmarg)));
 
     figure
     surf(m_vec,p_vec,NormPost)
