@@ -1,0 +1,23 @@
+
+numTrial = 100;      %number of trials
+numSims = 1000;
+ptb = zeros(1,numTrial);
+ptb(20:70) = 20;
+arcSize = 0:45; %possible arc angles
+r = [10,linspace(10,0,length(2:length(arcSize)))];
+
+var1 = [8,.45,1,.1]; %sigma_m,alpha_m,sigma_aim,alpha_mf
+var2 = [8,3,.45,]; %sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim
+var3 = [8,3,.45,.5]; %sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim,alpha_mf
+var4 = [8,3,.45,.5,]; %sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim,alpha_mf
+
+[lsTot1, AS1, fb1, ASsem1, fbSem1] = pterbModel1sim(numTrial,numSims,r,ptb,arcSize,var1(1),var1(2),var1(3),var1(4));
+
+
+[lsTot2, AS2, fb2, ASsem2, fbSem2] = pterbModel2sim(numTrial,numSims,r,ptb,arcSize,var2(1),var2(2),var2(3),var2(4),var2(5));
+
+
+[lsTot3, AS3, fb3, ASsem3, fbSem3] = pterbModel3sim(numTrial,numSims,r,ptb,arcSize,var3(1),var3(2),var3(3),var3(4),var3(5),var3(6));
+
+
+[lsTot4, AS4, fb4, ASsem4, fbSem4] = pterbModel4sim(numTrial,numSims,r,ptb,arcSize,var4(1),var4(2),var4(3),var4(4),var4(5),var4(6));
