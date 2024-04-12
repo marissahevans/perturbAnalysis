@@ -1,4 +1,4 @@
-subjAll = [{'BY'},{'FM'},{'HP'},{'MP'},{'NA'},{'PL'},{'SM'},{'ET'},{'IJ'},{'AN'},{'SB'},{'VD'},{'GK'},{'PK'},{'RW'},{'SX'}];
+subjAll = [{'FM'},{'SM'},{'GK'},{'HP'},{'MP'},{'NA'},{'PL'},{'AN'},{'VD'},{'RW'},{'BY'},{'IJ'},{'ET'},{'SB'},{'PK'},{'SX'}];
 for ss = 1:length(subjAll)
     subj = subjAll{ss};
     path = sprintf('/Users/mhe229/Documents/Landy Lab/perturbExperiment/data_perturb/%s',subj);
@@ -79,19 +79,29 @@ for ss = 1:length(subjAll)
     reaches(isoutlier(reaches)) = mean(reaches(~isoutlier(reaches)));
 
     figure; hold on
-    plot(reaches)
-    plot(indicated)
-    xline(0);
+    set(gcf,'color','w');
+    set(gca, 'TickDir', 'out', 'FontSize', 24)
+    plot(indicated,'LineWidth',2)
+    plot(reaches,'LineWidth',2)
+    yline(0,'--');
+    xlabel('Trial')
+    ylabel('Hand Angle (degrees)')
+    legend('Indicated','Reach')
+    if ss == 1
+        title('P1 high proprioceptive uncertainty')
+    elseif ss == 7
+        title('P7 low proprioceptive uncertainty')
+    end
 
 
     %Control results full reaches
-    figure; hold on
-    set(gca, 'YDir', 'reverse')
-    for ii = 1:contResultsMat.tabletData(end,6)
-        trialVals = contResultsMat.tabletData(:,6) == ii;
-        plot(contResultsMat.tabletData(trialVals,1),contResultsMat.tabletData(trialVals,2))
-    end
-    xlim([0,2000])
+    % figure; hold on
+    % set(gca, 'YDir', 'reverse')
+    % for ii = 1:contResultsMat.tabletData(end,6)
+    %     trialVals = contResultsMat.tabletData(:,6) == ii;
+    %     plot(contResultsMat.tabletData(trialVals,1),contResultsMat.tabletData(trialVals,2))
+    % end
+    % xlim([0,2000])
 
     %Likelihood fitting of sigma_m and sigma_p
     m_vec = 1:.1:10;
@@ -129,19 +139,45 @@ for ss = 1:length(subjAll)
     %Motor Error Marginal
     mmarg = sum(NormPost,2);
     mmarg = mmarg/sum(mmarg);
-    sigMmarg = m_vec(find(mmarg == max(mmarg)));
+    sigMmarg(ss) = m_vec(find(mmarg == max(mmarg)));
 
     %Proprioception Marginal
     pmarg = sum(NormPost,1);
     pmarg = pmarg/sum(pmarg);
-    sigPmarg = p_vec(find(pmarg == max(pmarg)));
+    sigPmarg(ss) = p_vec(find(pmarg == max(pmarg)));
 
-    filename = sprintf('%s_contExpFit.mat',subj);
-    save(fullfile(path,filename), 'sigPmarg','sigMmarg','NormPost');
+    % filename = sprintf('%s_contExpFit.mat',subj);
+    % save(fullfile(path,filename), 'sigPmarg','sigMmarg','NormPost');
 
-    figure
-    surf(m_vec,p_vec,NormPost)
-    xlabel('proprioceptive error degrees')
-    ylabel('motor error degrees')
-    zlabel('posterior')
+    % figure
+    % surf(m_vec,p_vec,NormPost)
+    % xlabel('proprioceptive error degrees')
+    % ylabel('motor error degrees')
+    % zlabel('posterior')
 end 
+figure; hold on
+scatter(1:16,sigMmarg)
+scatter(1:16,sigPmarg)
+legend('sigma_m', 'sigma_p')
+
+
+figure; hold on
+set(gcf,'color','w');
+plot([0:10],[0:10], 'k--')
+scatter(sigMmarg(1:3),sigPmarg(1:3),200,'r','filled')
+text(sigMmarg(1:3),sigPmarg(1:3),{' P1',' P2',' P3'},'FontSize',14)
+scatter(sigMmarg(4:10),sigPmarg(4:10),200,'b','filled')
+text(sigMmarg(4:10),sigPmarg(4:10),{' P4',' P5',' P6',' P7',' P8',' P9',' P10'},'FontSize',14)
+scatter(sigMmarg(11:16),sigPmarg(11:16),200,'g','filled')
+text(sigMmarg(11:16),sigPmarg(11:16),{' P11',' P12',' P13',' P14',' P15',' P16'},'FontSize',14)
+ylim([0 10])
+xlim([0 10])
+axis square
+box off
+yticks([0:2:10])
+xticks([0:2:10])
+set(gca, 'TickDir', 'out', 'FontSize', 24)
+ylabel('Proprioceptive error sigma (degrees)','FontSize', 34)
+xlabel('Motor error sigma (degrees)','FontSize', 34)
+legend('Equality line','Best fit Prospective','Best fit Retrospective','Best fit Full','Location','best')
+
