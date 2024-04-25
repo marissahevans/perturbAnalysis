@@ -66,8 +66,8 @@ for sims = 1:numSims
     ASsem = std(arcSelect')/sqrt(length(arcSelect));
     fb = mean(feedback,2);
     fbSem = std(feedback')/sqrt(length(feedback));
-    lsFeed = sum((fb - feedbackErrmean).^2);
-    lsConf = sum((AS - confmean).^2);
+    lsFeed = sum((fb - feedbackErrmean(1:numTrial)).^2);
+    lsConf = sum((AS - confmean(1:numTrial)).^2);
     lsTot = lsFeed + lsConf;
 end
 end

@@ -1,11 +1,6 @@
 %PARPOOL VERSION OF MODEL FITS USING BADS - PERTERBATION PROJECT
 
-currentDir                  = pwd;
-[projectDir, ~]             = fileparts(currentDir);
-addpath(genpath(fullfile(projectDir, 'data')))
-addpath(genpath(fullfile(projectDir, 'bads-master')));
-
-subj = 'MP'
+subj = 'ET'
 load(sprintf('%s_LSoutput.mat',subj));
 
 numTrial = 70;      %number of trials
@@ -18,6 +13,11 @@ ptb(20:70) = 20;
 arcSize = 0:45; %possible arc angles
 r = [10,linspace(10,0,length(2:length(arcSize)))];
 parpool(10);
+
+currentDir                  = pwd;
+[projectDir, ~]             = fileparts(currentDir);
+addpath(genpath(fullfile(projectDir, 'data')))
+addpath(genpath(fullfile(projectDir, 'bads-master')));
 
 %Initalize variables for parfor loop
 x1 = zeros(numBlocks,4,numIts);

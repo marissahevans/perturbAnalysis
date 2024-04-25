@@ -1,23 +1,27 @@
 %PARPOOL VERSION OF MODEL FITS USING BADS - PERTERBATION PROJECT
 
-currentDir                  = pwd;
-[projectDir, ~]             = fileparts(currentDir);
-addpath(genpath(fullfile(projectDir, 'data')))
-addpath(genpath(fullfile(projectDir, 'bads-master')));
-
-subj = 'MP'
-load(sprintf('%s_LSoutput.mat',subj));
-
 numTrial = 70;      %number of trials
 numBlocks = 12;
-numIts = 20;
-numSims = 1000;
+numIts = 2;
+numSims = 10;
 
 ptb = zeros(1,numTrial);
 ptb(20:70) = 20;
 arcSize = 0:45; %possible arc angles
 r = [10,linspace(10,0,length(2:length(arcSize)))];
-parpool(10);
+parpool(1);
+
+currentDir                  = pwd;
+[projectDir, ~]             = fileparts(currentDir);
+addpath(genpath(fullfile(projectDir, 'data')))
+addpath(genpath(fullfile(projectDir, 'bads-master')));
+
+
+%subjAll = [{'BY'},{'FM'},{'HP'},{'MP'},{'NA'},{'PL'},{'SM'},{'ET'},{'IJ'},{'AN'},{'SB'},{'VD'},{'GK'},{'PK'},{'RW'},{'SX'}];
+
+
+subj = 'AN'
+load(sprintf('%s_LSoutput.mat',subj));
 
 %Initalize variables for parfor loop
 x1 = zeros(numBlocks,4,numIts);
@@ -125,7 +129,7 @@ for gg = 1:numIts
 end
 
 cvAll = [sum(cvLS1,2), sum(cvLS2,2), sum(cvLS3,2)];%, sum(cvLS4,2)];
-cvmin = min(cvAll,[],2);
+cvmin = min(cvAll);
 cvDiff =  cvAll - cvmin;
 
 for ww = 1:numIts
@@ -134,4 +138,10 @@ end
 
 
 filename = sprintf('%s_badsMinOutput2.mat',subj);
-save(filename, 'x1','x2','x3','cvLS1','cvLS2','cvLS3','cvDiff','winner');
+%save(filename, 'x1','x2','x3','x4','cvLS1','cvLS2','cvLS3','cvLS4','cvDiff','winner');
+
+
+
+
+
+

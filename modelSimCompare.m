@@ -1,5 +1,5 @@
 
-numTrial = 100;      %number of trials
+numTrial = 70;      %number of trials
 numSims = 1000;
 ptb = zeros(1,numTrial);
 ptb(20:70) = 20;
@@ -23,7 +23,7 @@ var4 = [6,3,.45,.5,.8,.3]; %sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim,alpha_mf
 [AS4, fb4, ASsem4, fbSem4] = pterbModel4sim(numTrial,numSims,r,ptb,arcSize,var4(1),var4(2),var4(3),var4(4),var4(5),var4(6));
 
 
-x = 1:100;
+x = 1:70;
 figure
 subplot(1,4,1); hold on
 plot(x,AS1,'k','LineWidth',2)

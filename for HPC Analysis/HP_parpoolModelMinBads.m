@@ -1,6 +1,14 @@
 %PARPOOL VERSION OF MODEL FITS USING BADS - PERTERBATION PROJECT
 
-numTrial = 100;      %number of trials
+currentDir                  = pwd;
+[projectDir, ~]             = fileparts(currentDir);
+addpath(genpath(fullfile(projectDir, 'data')))
+addpath(genpath(fullfile(projectDir, 'bads-master')));
+
+subj = 'HP'
+load(sprintf('%s_LSoutput.mat',subj));
+
+numTrial = 70;      %number of trials
 numBlocks = 12;
 numIts = 20;
 numSims = 1000;
@@ -10,18 +18,6 @@ ptb(20:70) = 20;
 arcSize = 0:45; %possible arc angles
 r = [10,linspace(10,0,length(2:length(arcSize)))];
 parpool(10);
-
-currentDir                  = pwd;
-[projectDir, ~]             = fileparts(currentDir);
-addpath(genpath(fullfile(projectDir, 'data')))
-addpath(genpath(fullfile(projectDir, 'bads-master')));
-
-
-%subjAll = [{'BY'},{'FM'},{'HP'},{'MP'},{'NA'},{'PL'},{'SM'},{'ET'},{'IJ'},{'AN'},{'SB'},{'VD'},{'GK'},{'PK'},{'RW'},{'SX'}];
-
-
-subj = 'HP'
-load(sprintf('%s_LSoutput.mat',subj));
 
 %Initalize variables for parfor loop
 x1 = zeros(numBlocks,4,numIts);
@@ -33,13 +29,13 @@ ls2 = zeros(numIts, numBlocks);
 x3 = zeros(numBlocks,6,numIts);
 ls3 = zeros(numIts, numBlocks);
 
-x4 = zeros(numBlocks,6,numIts);
-ls4 = zeros(numIts, numBlocks);
+% x4 = zeros(numBlocks,6,numIts);
+% ls4 = zeros(numIts, numBlocks);
 
 cvLS1 = zeros(numIts,numBlocks);
 cvLS2 = zeros(numIts,numBlocks);
 cvLS3 = zeros(numIts,numBlocks);
-cvLS4 = zeros(numIts,numBlocks);
+%cvLS4 = zeros(numIts,numBlocks);
 
 parfor gg = 1:numIts %number of full simulation sets
     
@@ -97,20 +93,20 @@ parfor gg = 1:numIts %number of full simulation sets
         [x3(cv,:,gg), ls3(gg,cv)] = bads(fun3,x03,lb3,ub3)
 
         %model 4
-        sigma_m = minParam{4}(1);
-        sigma_p = minParam{4}(2);
-        alpha_m = minParam{4}(3);
-        alpha_p = minParam{4}(4);
-        sigma_aim = minParam{4}(6);
-        alpha_mf = minParam{4}(7);
-
-        x04 = [sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim,alpha_mf];
-
-        lb4 = [.1 .1 0 0 .1 0];
-        ub4 = [20 20 1 1 20 1];
-
-        fun4 = @(var4) pterbModel4(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,var4(1),var4(2),var4(3),var4(4),var4(5),var4(6));
-        [x4(cv,:,gg), ls4(gg,cv)] = bads(fun4,x04,lb4,ub4)
+        % sigma_m = minParam{4}(1);
+        % sigma_p = minParam{4}(2);
+        % alpha_m = minParam{4}(3);
+        % alpha_p = minParam{4}(4);
+        % sigma_aim = minParam{4}(6);
+        % alpha_mf = minParam{4}(7);
+        % 
+        % x04 = [sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim,alpha_mf];
+        % 
+        % lb4 = [.1 .1 0 0 .1 0];
+        % ub4 = [20 20 1 1 20 1];
+        % 
+        % fun4 = @(var4) pterbModel4(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,var4(1),var4(2),var4(3),var4(4),var4(5),var4(6));
+        % [x4(cv,:,gg), ls4(gg,cv)] = bads(fun4,x04,lb4,ub4)
         
         iteration = [cv,gg]
     end
@@ -124,24 +120,18 @@ for gg = 1:numIts
         [cvLS1(gg,cv)]= pterbModel1(testBlockfeed,testBlockconf,numTrial,numSims,r,ptb,arcSize,x1(cv,1,gg),x1(cv,2,gg),x1(cv,3,gg),x1(cv,4,gg));
         [cvLS2(gg,cv)]= pterbModel2(testBlockfeed,testBlockconf,numTrial,numSims,r,ptb,arcSize,x2(cv,1,gg),x2(cv,2,gg),x2(cv,3,gg),x2(cv,4,gg),x2(cv,5,gg));
         [cvLS3(gg,cv)]= pterbModel3(testBlockfeed,testBlockconf,numTrial,numSims,r,ptb,arcSize,x3(cv,1,gg),x3(cv,2,gg),x3(cv,3,gg),x3(cv,4,gg),x3(cv,5,gg),x3(cv,6,gg));
-        [cvLS4(gg,cv)]= pterbModel4(testBlockfeed,testBlockconf,numTrial,numSims,r,ptb,arcSize,x4(cv,1,gg),x4(cv,2,gg),x4(cv,3,gg),x4(cv,4,gg),x4(cv,5,gg),x4(cv,6,gg));
+        %[cvLS4(gg,cv)]= pterbModel4(testBlockfeed,testBlockconf,numTrial,numSims,r,ptb,arcSize,x4(cv,1,gg),x4(cv,2,gg),x4(cv,3,gg),x4(cv,4,gg),x4(cv,5,gg),x4(cv,6,gg));
     end
 end
 
-cvAll = [sum(cvLS1,2), sum(cvLS2,2), sum(cvLS3,2), sum(cvLS4,2)];
-cvmin = min(cvAll);
+cvAll = [sum(cvLS1,2), sum(cvLS2,2), sum(cvLS3,2)];%, sum(cvLS4,2)];
+cvmin = min(cvAll,[],2);
 cvDiff =  cvAll - cvmin;
 
 for ww = 1:numIts
-winner(ww) = find(cvDiff(:,ww)==0);
+winner(ww) = find(cvDiff(ww,:)==0);
 end
 
 
-filename = sprintf('%s_badsMinOutput.mat',subj);
-save(filename, 'x1','x2','x3','x4','cvLS1','cvLS2','cvLS3','cvLS4','cvDiff','winner');
-
-
-
-
-
-
+filename = sprintf('%s_badsMinOutput2.mat',subj);
+save(filename, 'x1','x2','x3','cvLS1','cvLS2','cvLS3','cvDiff','winner');
