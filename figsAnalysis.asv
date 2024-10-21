@@ -102,35 +102,15 @@ title('Feedback Learning')
 xlabel('Model')
 
 %%
-subjAll = [{'FM'},{'GK'},{'SM'},{'AN'},{'PK'},{'RW'},{'ET'},{'VD'},{'HP'},{'SB'},{'IJ'},{'NA'},{'PL'},{'BY'},{'SX'},{'MP'}];
-for ss = 1:length(subjAll)
-    subj = subjAll{ss};
-    path = sprintf('/Users/mhe229/Documents/Landy Lab/perturbExperiment/data_perturb/%s',subj);
-    filename = sprintf('%s_badsMinOutput2.mat',subj);
-    load(sprintf('%s_contExpFit.mat',subj))
-    sigM(ss) = sigMmarg;
-    sigP(ss) = sigPmarg;
-end
-
-figure; hold on
-set(gcf,'color','w');
-plot([0:10],[0:10], 'k--')
-scatter(sigM(1:5),sigP(1:5),100,'r','filled')
-%text(sigMmarg(1:6),sigPmarg(1:6),{' P1',' P2',' P3',' P4',' P5',' P6'},'FontSize',14)
-scatter(sigM(6:13),sigP(6:13),100,'b','filled')
-%text(sigMmarg(7:14),sigPmarg(7:14),{' P7',' P8',' P9',' P10',' P11',' P12',' P13',' P14',},'FontSize',14)
-scatter(sigM(14:16),sigP(14:16),100,'g','filled')
-%text(sigMmarg(15:16),sigPmarg(15:16),{' P15',' P16'},'FontSize',14)
-ylim([0 10])
-xlim([0 6])
-%axis equal
-box off
-yticks([0:2:10])
-xticks([0:2:10])
-set(gca, 'TickDir', 'out', 'FontSize', 18)
-ylabel('proprioceptive error sigma (deg)','FontSize', 18)
-xlabel('motor error sigma (deg)','FontSize', 18)
-legend('Equality line','Best fit Prospective','Best fit Retrospective','Best fit Full','Location','best')
+% subjAll = [{'FM'},{'GK'},{'SM'},{'AN'},{'PK'},{'RW'},{'ET'},{'VD'},{'HP'},{'SB'},{'IJ'},{'NA'},{'PL'},{'BY'},{'SX'},{'MP'}];
+% for ss = 1:length(subjAll)
+%     subj = subjAll{ss};
+%     path = sprintf('/Users/mhe229/Documents/Landy Lab/perturbExperiment/data_perturb/%s',subj);
+%     filename = sprintf('%s_badsMinOutput2.mat',subj);
+%     load(sprintf('%s_contExpFit.mat',subj))
+%     sigM(ss) = sigMmarg;
+%     sigP(ss) = sigPmarg;
+% end
 %% Boxplots for all participants 
 
 %subjAll = [{'GK'},{'MP'},{'PL'},{'AN'},{'SB'},{'PK'},{'FM'},{'SM'},{'HP'},{'NA'},{'VD'},{'RW'},{'IJ'},{'ET'},{'BY'},{'SX'}];

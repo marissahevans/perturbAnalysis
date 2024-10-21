@@ -6,10 +6,10 @@ ptb(20:70) = 20;
 arcSize = 0:45; %possible arc angles
 r = [10,linspace(10,0,length(2:length(arcSize)))];
 
-var1 = [6,.45,.8,.1]; %sigma_m,alpha_m,sigma_aim,alpha_mf
-var2 = [6,3,.45,.5,.8]; %sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim
-var3 = [6,3,.45,.5,.8,.3]; %sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim,alpha_mf
-var4 = [6,3,.45,.5,.8,.3]; %sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim,alpha_mf
+var1 = [3,.7,.8,.7]; %sigma_m,alpha_m,sigma_aim,alpha_mf
+var2 = [3,10,.7,.3,.8]; %sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim
+var3 = [3,10,.7,.3,.8,.7]; %sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim,alpha_mf
+var4 = [3,10,.7,.3,.8,.7]; %sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim,alpha_mf
 
 [AS1, fb1, ASsem1, fbSem1] = pterbModel1sim(numTrial,numSims,r,ptb,arcSize,var1(1),var1(2),var1(3),var1(4));
 
@@ -25,7 +25,7 @@ var4 = [6,3,.45,.5,.8,.3]; %sigma_m,sigma_p,alpha_m,alpha_p,sigma_aim,alpha_mf
 
 x = 1:70;
 figure
-subplot(1,4,1); hold on
+subplot(1,3,1); hold on
 plot(x,AS1,'k','LineWidth',2)
 plot(AS1-ASsem1','k--','HandleVisibility','off')
 plot(AS1+ASsem1','k--','HandleVisibility','off')
@@ -41,10 +41,10 @@ ylabel('angle (degrees)')
 xlabel('trial')
 set(gca, 'TickDir', 'out', 'FontSize', 18)
 set(gcf,'color','w')
-title(['Model 1'])
+title(['Prospective'])
 ylim([-30 30])
 
-subplot(1,4,2); hold on
+subplot(1,3,2); hold on
 plot(x,AS2,'k','LineWidth',2)
 plot(AS2-ASsem2','k--','HandleVisibility','off')
 plot(AS2+ASsem2','k--','HandleVisibility','off')
@@ -60,10 +60,10 @@ ylabel('angle (degrees)')
 xlabel('trial')
 set(gca, 'TickDir', 'out', 'FontSize', 18)
 set(gcf,'color','w')
-title(['Model 2'])
+title(['Retrospective'])
 ylim([-30 30])
 
-subplot(1,4,3); hold on
+subplot(1,3,3); hold on
 plot(x,AS3,'k','LineWidth',2)
 plot(AS3-ASsem3','k--','HandleVisibility','off')
 plot(AS3+ASsem3','k--','HandleVisibility','off')
@@ -79,24 +79,24 @@ ylabel('angle (degrees)')
 xlabel('trial')
 set(gca, 'TickDir', 'out', 'FontSize', 18)
 set(gcf,'color','w')
-title(['Model 3'])
+title(['Full'])
 ylim([-30 30])
 
-subplot(1,4,4); hold on
-plot(x,AS4,'k','LineWidth',2)
-plot(AS4-ASsem4','k--','HandleVisibility','off')
-plot(AS4+ASsem4','k--','HandleVisibility','off')
-plot(x,-AS4,'k','LineWidth',2,'HandleVisibility','off')
-plot(-AS4-ASsem4','k--','HandleVisibility','off')
-plot(-AS4+ASsem4','k--','HandleVisibility','off')
-plot(x,fb4,'b','LineWidth',2)
-plot(fb4-fbSem4','b--','HandleVisibility','off')
-plot(fb4+fbSem4','b--','HandleVisibility','off')
-yline(0,'HandleVisibility','off');
-%legend('Feedback Angle','Confidence Angle','model Conf','model Feed','location','best')
-ylabel('angle (degrees)')
-xlabel('trial')
-set(gca, 'TickDir', 'out', 'FontSize', 18)
-set(gcf,'color','w')
-title(['Model 4'])
-ylim([-30 30])
+% subplot(1,4,4); hold on
+% plot(x,AS4,'k','LineWidth',2)
+% plot(AS4-ASsem4','k--','HandleVisibility','off')
+% plot(AS4+ASsem4','k--','HandleVisibility','off')
+% plot(x,-AS4,'k','LineWidth',2,'HandleVisibility','off')
+% plot(-AS4-ASsem4','k--','HandleVisibility','off')
+% plot(-AS4+ASsem4','k--','HandleVisibility','off')
+% plot(x,fb4,'b','LineWidth',2)
+% plot(fb4-fbSem4','b--','HandleVisibility','off')
+% plot(fb4+fbSem4','b--','HandleVisibility','off')
+% yline(0,'HandleVisibility','off');
+% %legend('Feedback Angle','Confidence Angle','model Conf','model Feed','location','best')
+% ylabel('angle (degrees)')
+% xlabel('trial')
+% set(gca, 'TickDir', 'out', 'FontSize', 18)
+% set(gcf,'color','w')
+% title(['Model 4'])
+% ylim([-30 30])

@@ -1,6 +1,5 @@
-subjAll = [{'PL'},{'GK'},{'SB'},{'AN'},{'PK'},{'RW'},{'ET'},{'VD'},{'HP'},{'SM'},{'IJ'},{'NA'},{'FM'},{'BY'},{'SX'},{'MP'}];
-
-for ss = [4,6,14]
+subjAll = [{'GK'},{'FM'},{'SM'},{'MP'},{'AN'},{'SB'},{'PL'},{'PK'},{'HP'},{'NA'},{'VD'},{'RW'},{'IJ'},{'ET'},{'BY'},{'SX'}];
+for ss = [5,12,15]
     subj = subjAll{ss};
     path = sprintf('/Users/mhe229/Documents/Landy Lab/perturbExperiment/data_perturb/%s',subj);
 
@@ -85,11 +84,11 @@ for ss = [4,6,14]
     plot(indicated(1:300),'LineWidth',2)
     plot(reaches(1:300),'LineWidth',2)
     yline(0,'--');
-    xlabel('trial')
-    ylabel('angle, degrees')
+    xlabel('Trial')
+    ylabel('Hand Angle (degrees)')
     legend('Indicated','Reach')
     title(['Participant ', num2str(ss)])
-    ylim([-20,20])
+    xlim([-20,20])
    
 
 
@@ -146,8 +145,8 @@ for ss = [4,6,14]
     pmarg = pmarg/sum(pmarg);
     sigPmarg(ss) = p_vec(find(pmarg == max(pmarg)));
 
-    %filename = sprintf('%s_contExpFit.mat',subj);
-    %save(fullfile(path,filename), 'sigPmarg','sigMmarg','NormPost');
+    % filename = sprintf('%s_contExpFit.mat',subj);
+    % save(fullfile(path,filename), 'sigPmarg','sigMmarg','NormPost');
 
     % figure
     % surf(m_vec,p_vec,NormPost)
