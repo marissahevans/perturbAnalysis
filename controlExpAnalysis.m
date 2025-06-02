@@ -1,6 +1,8 @@
-subjAll = [{'PL'},{'GK'},{'SB'},{'AN'},{'PK'},{'RW'},{'ET'},{'VD'},{'HP'},{'SM'},{'IJ'},{'NA'},{'FM'},{'BY'},{'SX'},{'MP'}];
+%subjAll = [{'PL'},{'GK'},{'SB'},{'AN'},{'PK'},{'RW'},{'ET'},{'VD'},{'HP'},{'SM'},{'IJ'},{'NA'},{'FM'},{'BY'},{'SX'},{'MP'}];
 
-for ss = [4,6,14]
+subjAll = [{'BY'},{'FM'},{'HP'},{'MP'},{'NA'},{'PL'},{'SM'},{'ET'},{'IJ'},{'AN'},{'SB'},{'VD'},{'GK'},{'PK'},{'RW'},{'SX'}];
+
+for ss = 1:length(subjAll)
     subj = subjAll{ss};
     path = sprintf('/Users/mhe229/Documents/Landy Lab/perturbExperiment/data_perturb/%s',subj);
 
@@ -79,17 +81,17 @@ for ss = [4,6,14]
 
     reaches(isoutlier(reaches)) = mean(reaches(~isoutlier(reaches)));
 
-    figure; hold on
-    set(gcf,'color','w');
-    set(gca, 'TickDir', 'out', 'FontSize', 24)
-    plot(indicated(1:300),'LineWidth',2)
-    plot(reaches(1:300),'LineWidth',2)
-    yline(0,'--');
-    xlabel('trial')
-    ylabel('angle, degrees')
-    legend('Indicated','Reach')
-    title(['Participant ', num2str(ss)])
-    ylim([-20,20])
+    % figure; hold on
+    % set(gcf,'color','w');
+    % set(gca, 'TickDir', 'out', 'FontSize', 24)
+    % plot(indicated(1:300),'LineWidth',2)
+    % plot(reaches(1:300),'LineWidth',2)
+    % yline(0,'--');
+    % xlabel('trial')
+    % ylabel('angle, degrees')
+    % legend('Indicated','Reach')
+    % title(['Participant ', num2str(ss)])
+    % ylim([-20,20])
    
 
 
@@ -161,23 +163,23 @@ end
 % legend('sigma_m', 'sigma_p')
 
 
-% figure; hold on
-% set(gcf,'color','w');
-% plot([0:10],[0:10], 'k--')
-% scatter(sigMmarg(1:6),sigPmarg(1:6),200,'r','filled')
-% %text(sigMmarg(1:6),sigPmarg(1:6),{' P1',' P2',' P3',' P4',' P5',' P6'},'FontSize',14)
-% scatter(sigMmarg(7:14),sigPmarg(7:14),200,'b','filled')
-% %text(sigMmarg(7:14),sigPmarg(7:14),{' P7',' P8',' P9',' P10',' P11',' P12',' P13',' P14',},'FontSize',14)
-% scatter(sigMmarg(15:16),sigPmarg(15:16),200,'g','filled')
-% %text(sigMmarg(15:16),sigPmarg(15:16),{' P15',' P16'},'FontSize',14)
-% ylim([0 10])
-% xlim([0 10])
-% axis square
-% box off
-% yticks([0:2:10])
-% xticks([0:2:10])
-% set(gca, 'TickDir', 'out', 'FontSize', 24)
-% ylabel('proprioceptive error sigma (deg)','FontSize', 34)
-% xlabel('motor error sigma (deg)','FontSize', 34)
-% legend('Equality line','Best fit Prospective','Best fit Retrospective','Best fit Full','Location','best')
+figure; hold on
+set(gcf,'color','w');
+plot([0:10],[0:10], 'k--')
+scatter(sigMmarg(1:6),sigPmarg(1:6),200,'r','filled')
+%text(sigMmarg(1:6),sigPmarg(1:6),{' P1',' P2',' P3',' P4',' P5',' P6'},'FontSize',14)
+scatter(sigMmarg(7:14),sigPmarg(7:14),200,'b','filled')
+%text(sigMmarg(7:14),sigPmarg(7:14),{' P7',' P8',' P9',' P10',' P11',' P12',' P13',' P14',},'FontSize',14)
+scatter(sigMmarg(15:16),sigPmarg(15:16),200,'g','filled')
+%text(sigMmarg(15:16),sigPmarg(15:16),{' P15',' P16'},'FontSize',14)
+ylim([0 10])
+xlim([0 10])
+axis square
+box off
+yticks([0:2:10])
+xticks([0:2:10])
+set(gca, 'TickDir', 'out', 'FontSize', 24)
+ylabel('proprioceptive error sigma (deg)','FontSize', 34)
+xlabel('motor error sigma (deg)','FontSize', 34)
+legend('Equality line','Best fit Prospective','Best fit Retrospective','Best fit Full','Location','best')
 

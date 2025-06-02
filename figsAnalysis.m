@@ -543,8 +543,8 @@ arcSize = 0:45; %possible arc angles
 r = [10,linspace(10,0,length(2:length(arcSize)))];
 
 
-for ss = 1:16%:length(subjAll)
-    figure 
+for ss = [4 6 14]%:length(subjAll)
+    figure
     sgtitle(['Participant ',num2str(ss)])
     subj = subjAll{ss};
     path = sprintf('/Users/mhe229/Documents/Landy Lab/perturbExperiment/data_perturb/%s',subj);
@@ -556,6 +556,7 @@ for ss = 1:16%:length(subjAll)
     
     cvAll = [sum(cvLS1,2), sum(cvLS2,2), sum(cvLS3,2)];
 
+    %PROSPECTIVE
     subset = winnerAll(:,ss) == 1;
     params = x1(:,:,subset);
     leastSQ = find(cvAll(subset,1) == min(cvAll(subset,1)));
@@ -564,26 +565,25 @@ for ss = 1:16%:length(subjAll)
     [lsTot1, AS1, fb1, ASsem1, fbSem1] = pterbModel1(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,bestVals(1),bestVals(2),bestVals(3),bestVals(4));
 
     subplot(1,3,1); hold on
-    plot(feedbackErrmean-feedbackErrsem','m--')
-    plot(feedbackErrmean+feedbackErrsem','m--','HandleVisibility','off')
-    plot(confmean-confsem','g--')
-    plot(confmean+confsem','g--','HandleVisibility','off')
-    plot(-confmean-confsem','g--','HandleVisibility','off')
-    plot(-confmean+confsem','g--','HandleVisibility','off')
-    plot(AS1,'k','LineWidth',2)
-    plot(-AS1,'k','LineWidth',2,'HandleVisibility','off')
-    plot(fb1,'b','LineWidth',2)
-    yline(mean(confmean(1:19)),'--','HandleVisibility','off');
-    yline(-(mean(confmean(1:19))),'--','HandleVisibility','off');
-    yline(0,'HandleVisibility','off');
-    legend('Feedback Angle','Confidence Angle','Model Confidence','Model Feedback','location','best')
-    ylabel('angle (deg)')
+    patch([20:70, fliplr(20:70)], [-10*ones(1,51), fliplr(25*ones(1,51))],'K', 'FaceAlpha',0.1,'HandleVisibility','off',EdgeColor='none');
+    patch([1:70, fliplr(1:70)], [feedbackErrmean(1:70)'-feedbackErrsem(1:70), fliplr(feedbackErrmean(1:70)'+feedbackErrsem(1:70))],[0.4940 0.1840 0.5560], 'FaceAlpha',0.5,EdgeColor='none');
+    plot(feedbackErrmean(1:70),'Color',[0.4940 0.1840 0.5560],'HandleVisibility','off')
+    patch([1:70, fliplr(1:70)], [confmean(1:70)'-confsem(1:70), fliplr(confmean(1:70)'+confsem(1:70))],[0.8500 0.3250 0.0980], 'FaceAlpha',0.5,EdgeColor='none');
+    plot(confmean(1:70),'Color',[0.8500 0.3250 0.0980],'HandleVisibility','off')
+    plot(AS1,'r','LineWidth',3)
+    plot(fb1,'b','LineWidth',3)
+    yline(0);
+    ylim([-10 25])
+    xlim([1 70])
+    xticks([20 70])
     xlabel('trial')
-    set(gca, 'TickDir', 'out', 'FontSize', 18)
-    set(gcf,'color','w')
+    ylabel('directional error (deg)')
     title('Prospective Model')
-    ylim([-20 20])
+    box off
+    set(gca,'TickDir','out','FontSize',18)
+    set(gcf,'Color','white','position',[0,0,1600,500])
 
+    %RETROSPECTIVE
     subset = winnerAll(:,ss) == 2;
     params = x2(:,:,subset);
     leastSQ = find(cvAll(subset,2) == min(cvAll(subset,2)));
@@ -592,53 +592,53 @@ for ss = 1:16%:length(subjAll)
     [lsTot2, AS2, fb2, ASsem2, fbSem2] = pterbModel2(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,bestVals(1),bestVals(2),bestVals(3),bestVals(4),bestVals(5));
 
     subplot(1,3,2); hold on
-    plot(feedbackErrmean-feedbackErrsem','m--')
-    plot(feedbackErrmean+feedbackErrsem','m--','HandleVisibility','off')
-    plot(confmean-confsem','g--')
-    plot(confmean+confsem','g--','HandleVisibility','off')
-    plot(-confmean-confsem','g--','HandleVisibility','off')
-    plot(-confmean+confsem','g--','HandleVisibility','off')
-    plot(AS2,'k','LineWidth',2)
-    plot(-AS2,'k','LineWidth',2,'HandleVisibility','off')
-    plot(fb2,'b','LineWidth',2)
-    yline(mean(confmean(1:19)),'--','HandleVisibility','off');
-    yline(-(mean(confmean(1:19))),'--','HandleVisibility','off');
-    yline(0,'HandleVisibility','off');
-    legend('Feedback Angle','Confidence Angle','Model Confidence','Model Feedback','location','best')
-    ylabel('angle (deg)')
+    patch([20:70, fliplr(20:70)], [-10*ones(1,51), fliplr(25*ones(1,51))],'K', 'FaceAlpha',0.1,'HandleVisibility','off',EdgeColor='none');
+    patch([1:70, fliplr(1:70)], [feedbackErrmean(1:70)'-feedbackErrsem(1:70), fliplr(feedbackErrmean(1:70)'+feedbackErrsem(1:70))],[0.4940 0.1840 0.5560], 'FaceAlpha',0.5,EdgeColor='none');
+    plot(feedbackErrmean(1:70),'Color',[0.4940 0.1840 0.5560],'HandleVisibility','off')
+    patch([1:70, fliplr(1:70)], [confmean(1:70)'-confsem(1:70), fliplr(confmean(1:70)'+confsem(1:70))],[0.8500 0.3250 0.0980], 'FaceAlpha',0.5,EdgeColor='none');
+    plot(confmean(1:70),'Color',[0.8500 0.3250 0.0980],'HandleVisibility','off')
+    plot(AS2,'r','LineWidth',3)
+    plot(fb2,'b','LineWidth',3)
+    yline(0);
+    ylim([-10 25])
+    xlim([1 70])
+    xticks([20 70])
     xlabel('trial')
-    set(gca, 'TickDir', 'out', 'FontSize', 18)
-    set(gcf,'color','w')
+    ylabel('directional error (deg)')
     title('Retrospective Model')
-    ylim([-20 20])
+    box off
+    set(gca,'TickDir','out','FontSize',18)
+    set(gcf,'Color','white','position',[0,0,1600,500])
 
+    %FULL 
     subset = winnerAll(:,ss) == 3;
     params = x3(:,:,subset);
     leastSQ = find(cvAll(subset,3) == min(cvAll(subset,3)));
-    %bestVals = params(1,:,leastSQ);
-    bestVals = mean(mean(params,3));
+    bestVals = params(1,:,leastSQ);
+    %bestVals = mean(mean(params,3));
     [lsTot3, AS3, fb3, ASsem3, fbSem3] = pterbModel3(feedbackErrmean,confmean,numTrial,numSims,r,ptb,arcSize,bestVals(1),bestVals(2),bestVals(3),bestVals(4),bestVals(5),bestVals(6));
 
     subplot(1,3,3); hold on
-    plot(feedbackErrmean-feedbackErrsem','m--')
-    plot(feedbackErrmean+feedbackErrsem','m--','HandleVisibility','off')
-    plot(confmean-confsem','g--')
-    plot(confmean+confsem','g--','HandleVisibility','off')
-    plot(-confmean-confsem','g--','HandleVisibility','off')
-    plot(-confmean+confsem','g--','HandleVisibility','off')
-    plot(AS3,'k','LineWidth',2)
-    plot(-AS3,'k','LineWidth',2,'HandleVisibility','off')
-    plot(fb3,'b','LineWidth',2)
-    yline(mean(confmean(1:19)),'--','HandleVisibility','off');
-    yline(-(mean(confmean(1:19))),'--','HandleVisibility','off');
-    yline(0,'HandleVisibility','off');
-    legend('Feedback Angle','Confidence Angle','Model Confidence','Model Feedback','location','best')
-    ylabel('angle (deg)')
+    patch([20:70, fliplr(20:70)], [-10*ones(1,51), fliplr(25*ones(1,51))],'K', 'FaceAlpha',0.1,'HandleVisibility','off',EdgeColor='none');
+    patch([1:70, fliplr(1:70)], [feedbackErrmean(1:70)'-feedbackErrsem(1:70), fliplr(feedbackErrmean(1:70)'+feedbackErrsem(1:70))],[0.4940 0.1840 0.5560], 'FaceAlpha',0.5,EdgeColor='none');
+    plot(feedbackErrmean(1:70),'Color',[0.4940 0.1840 0.5560],'HandleVisibility','off')
+    patch([1:70, fliplr(1:70)], [confmean(1:70)'-confsem(1:70), fliplr(confmean(1:70)'+confsem(1:70))],[0.8500 0.3250 0.0980], 'FaceAlpha',0.5,EdgeColor='none');
+    plot(confmean(1:70),'Color',[0.8500 0.3250 0.0980],'HandleVisibility','off')
+    plot(AS3,'r','LineWidth',3)
+    plot(fb3,'b','LineWidth',3)
+    yline(0);
+    ylim([-10 25])
+    xlim([1 70])
+    xticks([20 70])
     xlabel('trial')
-    set(gca, 'TickDir', 'out', 'FontSize', 18)
-    set(gcf,'color','w')
+    ylabel('directional error (deg)')
     title('Full Model')
-    ylim([-20 20])
+    box off
+    set(gca,'TickDir','out','FontSize',18)
+    set(gcf,'Color','white','position',[0,0,1600,500])
+    if ss == 14
+        legend('feedback','confidence','model confidence','model feedback','location','northeast')
+    end
 
 
 end
