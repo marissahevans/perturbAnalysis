@@ -6,7 +6,7 @@ function [lsTot, AS, fb, ASsem, fbSem] = pterbModel1(feedbackErrmean,confmean,nu
 
 %initalizing variables
 aimNoise = zeros(1,numTrial);
-aimNoise(20:70) = sigma_aim;
+aimNoise(21:70) = sigma_aim;
 sigma_mf1 = zeros(1,numTrial);       %initial condition for percieved motor noise (VARIANCE)
 sigma_mf1(1) = sigma_m;
 delta1 = zeros(1,numTrial);     %inital condition for motor adaptation

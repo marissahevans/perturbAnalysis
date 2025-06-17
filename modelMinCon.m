@@ -8,7 +8,7 @@ figs = 0; %show figures in loop
 
 tic
 subjAll = [{'BY'},{'FM'},{'HP'},{'MP'},{'NA'},{'PL'},{'SM'},{'ET'},{'IJ'},{'AN'},{'SB'},{'VD'},{'GK'},{'PK'},{'RW'},{'SX'}];
-for ss = 16%1:length(subjAll)
+for ss = 1:length(subjAll)
     subj = subjAll{ss};
     path = sprintf('/Users/mhe229/Documents/Landy Lab/perturbExperiment/data_perturb/%s',subj);
     filename = sprintf('%s_LSoutput.mat',subj);

@@ -1,11 +1,11 @@
 subjAll = [{'PL'},{'GK'},{'SB'},{'AN'},{'PK'},{'RW'},{'ET'},{'VD'},{'HP'},{'SM'},{'IJ'},{'NA'},{'FM'},{'BY'},{'SX'},{'MP'}];
 
-for ss = 1:length(subjAll)
+for ss = 1%:length(subjAll)
     subj = subjAll{ss};
     path = sprintf('/Users/mhe229/Documents/Landy Lab/perturbExperiment/data_perturb/%s',subj);
     filename = sprintf('%s_badsMinOutput2.mat',subj);
     load(sprintf('%s_LSoutput.mat',subj))
-    load(sprintf('%s_fMinOutput.mat',subj))
+    load(sprintf('%s_fMinOutput_1.mat',subj))
     load(sprintf('%s_contExpFit.mat',subj))
     load([path '/' filename])
 
@@ -35,12 +35,12 @@ xlabel('Participant')
 set(gca,'FontSize',18)
 
 
-figure
-for ii = 1:16
-    subplot(4,4,ii)
-    histogram(winnerAll(:,ii))
-    xlim([0,5])
-end
+% figure
+% for ii = 1:16
+%     subplot(4,4,ii)
+%     histogram(winnerAll(:,ii))
+%     xlim([0,5])
+% end
 
 %% Box plots comparing best fit parameters for each model (from simualtions)
 
@@ -149,7 +149,7 @@ for ss = 1:length(subjAll)
     path = sprintf('/Users/mhe229/Documents/Landy Lab/perturbExperiment/data_perturb/%s',subj);
     filename = sprintf('%s_badsMinOutput2.mat',subj);
     load(sprintf('%s_LSoutput.mat',subj))
-    load(sprintf('%s_fMinOutput.mat',subj))
+    load(sprintf('%s_fMinOutput_1.mat',subj))
     load(sprintf('%s_contExpFit.mat',subj))
     load([path '/' filename])
 

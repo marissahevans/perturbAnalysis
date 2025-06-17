@@ -4,7 +4,7 @@ function [lsTot, AS, fb, ASsem, fbSem] = pterbModel2(feedbackErrmean,confmean,nu
 
 %initalizing variables
 aimNoise = zeros(1,numTrial);
-aimNoise(20:70) = sigma_aim;
+aimNoise(21:70) = sigma_aim;
 delta1 = zeros(1,numTrial);     %inital condition for motor adaptation
 delta2 = zeros(1,numTrial);     %inital contidion for proprioceptive adaptation
 feedback1 = zeros(1,numTrial);
